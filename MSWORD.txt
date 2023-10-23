@@ -1,0 +1,41 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+
+
+public class ReadingWord {
+
+    public static void main(String[] args) throws IOException {
+
+        // Create FileInputStream and FileOutputStream for source and destination files
+        FileInputStream input = new FileInputStream(".\\datafiles\\word.docx");
+        FileOutputStream output = new FileOutputStream(".\\datafiles\\writingData.docx");
+
+        // Create XWPFDocument objects for source and destination
+        XWPFDocument sourceDoc = new XWPFDocument(input);
+        XWPFDocument destinationDoc = new XWPFDocument();
+      
+       
+     
+
+        for (XWPFParagraph sourceParagraph : sourceDoc.getParagraphs()) {
+            XWPFParagraph destinationParagraph = destinationDoc.createParagraph();
+            for (XWPFRun sourceRun : sourceParagraph.getRuns()) {
+                XWPFRun destinationRun = destinationParagraph.createRun();
+                destinationRun.setText(sourceRun.getText(0));
+                
+                destinationRun.setFontSize(12);
+                destinationRun.setColor("FF0000");
+                
+            }
+        }
+
+        FileOutputStream out = new FileOutputStream(".\\datafiles\\writingData.docx");
+        destinationDoc.write(out);
+        out.close();
+    }
+}
+
